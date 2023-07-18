@@ -3,6 +3,9 @@ import BackgroundImage from '../components/BackgroundImage';
 import { styled } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import OrangeSquareBtn from '../components/OrangeSquareBtn';
+import ApricotSquareBtn from '../components/ApricotSquareBtn';
+
 function MainPage() {
   return (
     <>
@@ -57,7 +60,7 @@ const MainPageText = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 20px;
-  color: white;
+  color: #fff;
 `;
 
 const MainPageCatchphrase = styled.h1`
@@ -76,31 +79,4 @@ const MainPageContent = styled.p`
 const MainPageButtons = styled.div`
   display: flex;
   gap: 10px;
-`;
-
-const OrangeSquareBtn = styled.button`
-  font-weight: 800;
-  font-size: 20px;
-
-  background-color: #ff800b;
-  color: white;
-
-  width: 150px;
-  height: 60px;
-  border-radius: 15px;
-
-  cursor: pointer;
-`;
-
-const ApricotSquareBtn = styled.button`
-  font-weight: 800;
-  font-size: 20px;
-
-  background-color: #ffe4c2;
-  color: #ff800b;
-
-  width: 160px;
-  height: 60px;
-  border-radius: 15px;
-  cursor: pointer;
 `;

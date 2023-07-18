@@ -7,9 +7,7 @@ function LayOut() {
   return (
     <>
       <Header />
-      <main style={{ marginTop: 100 }}>
-        <Outlet />
-      </main>
+      <Outlet />
       <Footer />
     </>
   );
