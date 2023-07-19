@@ -1,10 +1,10 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
-function ApricotSquareBtn({ children }) {
+function ApricotSquareBtn({ children, ...props }) {
   return (
     <>
-      <ApricotSquareButton>{children}</ApricotSquareButton>
+      <ApricotSquareButton {...props}>{children}</ApricotSquareButton>
     </>
   );
 }
