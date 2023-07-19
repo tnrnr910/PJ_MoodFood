@@ -1,10 +1,10 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
-function OrangeSquareBtn({ children }) {
+function OrangeSquareBtn({ children, ...props }) {
   return (
     <>
-      <OrangeSquareButton>{children}</OrangeSquareButton>
+      <OrangeSquareButton {...props}>{children}</OrangeSquareButton>
     </>
   );
 }
