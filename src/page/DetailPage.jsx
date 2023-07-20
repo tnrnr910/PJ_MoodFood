@@ -6,13 +6,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import BackgroundImage from '../components/BackgroundImage';
 
 const SliderContainer = styled.div`
-  margin: 160px 110px 300px 110px;
+  height: 140px;
+  margin: 160px 110px 200px 110px;
   padding: 20px;
   color: white;
 `;
 
 const SliderItem = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 230px;
 `;
 
 const DetailPage = () => {
@@ -48,7 +49,7 @@ const DetailPage = () => {
   ]);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
