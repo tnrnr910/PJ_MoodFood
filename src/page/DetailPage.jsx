@@ -41,8 +41,8 @@ const DetailPage = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
+    slidesToShow: 5,
+    slidesToScroll: 2
   };
   return (
     <>
