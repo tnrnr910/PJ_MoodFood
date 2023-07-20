@@ -1,0 +1,224 @@
+{
+  "surveys": [
+    {
+      "id": 1,
+      "quest": "하늘, 하면 어떤게 떠오르나요?",
+      "answers": [
+        {
+          "emotion": "즐거움",
+          "answer": "구름 한 점 없이 맑다."
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "잿빛 하늘이다."
+        },
+        {
+          "emotion": "행복",
+          "answer": "별이 떠있다."
+        },
+        {
+          "emotion": "분노",
+          "answer": "천둥 번개가 친다."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "quest": "지금 듣고 싶은 노래는 어떤 장르인가요?",
+      "answers": [
+        {
+          "emotion": "슬픔",
+          "answer": "발라드"
+        },
+        {
+          "emotion": "분노",
+          "answer": "락"
+        },
+        {
+          "emotion": "행복",
+          "answer": "댄스"
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "재즈"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "quest": "현재 가고 싶은 장소는 어디인가요?",
+      "answers": [
+        {
+          "emotion": "즐거움",
+          "answer": "시끄러운 술집"
+        },
+        {
+          "emotion": "행복",
+          "answer": "조용한 도서관"
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "울창한 숲 속 산장"
+        },
+        {
+          "emotion": "분노",
+          "answer": "스카이다이빙 장"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "quest": "아파트엔 총 4개의 층이 있습니다. 당신은 어느 층에 있습니까.",
+      "answers": [
+        {
+          "emotion": "슬픔",
+          "answer": "지하 1층"
+        },
+        {
+          "emotion": "분노",
+          "answer": "1층"
+        },
+        {
+          "emotion": "행복",
+          "answer": "2층"
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "옥상"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "quest": "친구의 성공 소식을 듣는다면 당신은 어떤 말을 해줄 건가요?",
+      "answers": [
+        {
+          "emotion": "행복",
+          "answer": "진심으로 축하한다."
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "밥을 사달라고 한다."
+        },
+        {
+          "emotion": "분노",
+          "answer": "산에 묻는다."
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "너는 했는데 나는 왜..."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "quest": "다가오는 생일, 당신에게 일어날 일은?",
+      "answers": [
+        {
+          "emotion": "즐거움",
+          "answer": "소중한 친구들과 함께 생일을 보낸다."
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "생일이 오지 않았으면 좋겠다."
+        },
+        {
+          "emotion": "행복",
+          "answer": "나를 위한 선물을 준비한다."
+        },
+        {
+          "emotion": "분노",
+          "answer": "야근을 해야할 것 같다."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "quest": "등산을 간 당신, 어떤 게 보이나요?",
+      "answers": [
+        {
+          "emotion": "분노",
+          "answer": "빽빽한 나무들"
+        },
+        {
+          "emotion": "행복",
+          "answer": "나뭇가지 사이로 보이는 햇살"
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "지저귀는 새 소리"
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "수북히 쌓인 낙엽"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "quest": "지금 떠오른 색은 어떤 색인가요?",
+      "answers": [
+        {
+          "emotion": "분",
+          "answer": "붉은색"
+        },
+        {
+          "emotion": "행복",
+          "answer": "분홍색"
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "노란색"
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "검은색"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "quest": "현재 가고 싶은 장소는 어디인가요?",
+      "answers": [
+        {
+          "emotion": "행복",
+          "answer": "치킨을 주문한다."
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "주위를 살피고 주머니에 넣는다."
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "멀리 주인이 달려오는 게 보인다. "
+        },
+        {
+          "emotion": "분노",
+          "answer": "다른 사람이 먼저 주워갔다."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "quest": "저 멀리 당신에게 달려오는 동물이 보입니다. 어떤 동물일까요?",
+      "answers": [
+        {
+          "emotion": "분노",
+          "answer": "코뿔소"
+        },
+        {
+          "emotion": "행복",
+          "answer": "토끼"
+        },
+        {
+          "emotion": "즐거움",
+          "answer": "강아지"
+        },
+        {
+          "emotion": "슬픔",
+          "answer": "사슴"
+        }
+      ]
+    }
+  ]
+}
