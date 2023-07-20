@@ -220,5 +220,33 @@
         }
       ]
     }
+  ],
+  "foodimage": [
+    {
+      "mood": "행복",
+      "food": [
+        {
+          "foodname": "닭발",
+          "url": "https://i.ibb.co/h9jb689/image.jpg"
+        },
+        {
+          "foodname": "두부김치",
+          "url": "https://ibb.co/TR4FG8b"
+        }
+      ]
+    },
+    {
+      "mood": "분노",
+      "food": [
+        {
+          "foodname": "냉면",
+          "url": "https://ibb.co/PZh9QXz"
+        },
+        {
+          "foodname": "닭발",
+          "url": "https://ibb.co/B3xbps3"
+        }
+      ]
+    }
   ]
 }

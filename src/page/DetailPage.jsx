@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import BackgroundImage from '../components/BackgroundImage';
+import axios from 'axios';
 
 const SliderContainer = styled.div`
   height: 140px;
@@ -16,37 +17,25 @@ const SliderItem = styled.div`
   margin-bottom: 230px;
 `;
 
+const ImgFood = styled.img`
+  width: 300px;
+  height: 300px;
+`;
+
 const DetailPage = () => {
-  const [sliderImages, setSliderImages] = useState([
-    {
-      title: '기쁨',
-      images: [
-        { id: 1, image: 'happy1.jpg' },
-        { id: 2, image: 'happy2.jpg' }
-      ]
-    },
-    {
-      title: '분노',
-      images: [
-        { id: 1, image: 'mad1.jpg' },
-        { id: 2, image: 'mad2.jpg' }
-      ]
-    },
-    {
-      title: '슬픔',
-      images: [
-        { id: 1, image: 'sad1.jpg' },
-        { id: 2, image: 'sad2.jpg' }
-      ]
-    },
-    {
-      title: '즐거움',
-      images: [
-        { id: 1, image: 'funny1.jpg' },
-        { id: 2, image: 'funny2.jpg' }
-      ]
-    }
-  ]);
+  const [sliderImages, setSliderImages] = useState([]);
+  console.log('test', sliderImages);
+  useEffect(() => {
+    const fetchSliderImages = async () => {
+      try {
+        const response = await axios.get('http://localhost:4000/foodimage');
+        setSliderImages(response.data);
+      } catch (error) {
+        console.log('error');
+      }
+    };
+    fetchSliderImages();
+  }, []);
 
   const settings = {
     dots: false,
@@ -55,17 +44,16 @@ const DetailPage = () => {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-
   return (
     <>
       <BackgroundImage />
-      {sliderImages.map((sliderImage, index) => (
+      {sliderImages.map((item, index) => (
         <SliderContainer key={index}>
-          <h2>{sliderImage.title}</h2>
+          <h2>{item.mood}</h2>
           <Slider {...settings}>
-            {sliderImage.images.map((image, imageIndex) => (
+            {item.food.map((image, imageIndex) => (
               <SliderItem key={imageIndex}>
-                <img src={image.image} alt={sliderImage.title} />
+                <ImgFood src={image.url} alt={item.foodname} />
               </SliderItem>
             ))}
           </Slider>
