@@ -6,8 +6,19 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { styled } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { prevPage, nextPage } from '../redux/modules/questPage';
+import { statusModal } from '../redux/modules/isOpen';
+import { getEmotions } from '../redux/modules/emotions';
+import { newnewChecked } from '../redux/modules/checked';
 
 function SurveyPage() {
+  const dispatch = useDispatch();
+  const { checked } = useSelector((state) => state.checked);
+  const { emotions } = useSelector((state) => state.emotions);
+  const { isOpen } = useSelector((state) => state.isOpen);
+  const { questPage } = useSelector((state) => state.questPage);
+
   const navigate = useNavigate();
   const modeEmotion = (emotions) => {
     let modeArr = new Map();
@@ -15,11 +26,11 @@ function SurveyPage() {
     modeArr = [...modeArr].sort((a, b) => b[1] - a[1]);
     return modeArr[0][0];
   };
-  const [questPage, setQuestPage] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [questPage, setQuestPage] = useState(0);
+  // const [isOpen, setIsOpen] = useState(false);
   // 초기값
-  const [checked, setChecked] = useState(Array(10).fill(-1));
-  const [emotions, setEmotions] = useState([]);
+  // const [checked, setChecked] = useState(Array(10).fill(-1));
+  // const [emo  tions, setEmotions] = useState([]);
 
   const { data, isLoading, isError, error } = useQuery('surveys', async () => {
     const response = await axios.get('http://localhost:4000/surveys');
@@ -34,41 +45,28 @@ function SurveyPage() {
   }
   const openModalHandler = () => {
     // isOpen의 상태를 변경하는 메소드를 구현
-    setIsOpen(!isOpen);
+
+    dispatch(statusModal(true));
+  };
+  const closeModalHandler = () => {
+    // isOpen의 상태를 변경하는 메소드를 구현
+    dispatch(statusModal(false));
   };
   return (
     <>
       <BackgroundImage />
       <div
         style={{
-          display: 'inline-flex',
+          display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           width: '100vw',
-          height: '80vh'
+          height: '100vh'
         }}
       >
-        {questPage + 1 === 1 ? (
-          <button style={{ display: 'none' }}>
-            <FontAwesomeIcon icon={faAnglesLeft} />
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setQuestPage(questPage - 1);
-            }}
-            style={{
-              cursor: 'pointer',
-              background: 'transparent',
-              color: '#ffffff',
-              transform: 'scale(2.0)',
-              marginRight: '10px',
-              border: '3px solid transparent'
-            }}
-          >
-            <FontAwesomeIcon icon={faAnglesLeft} />
-          </button>
-        )}
+        <NextButton onClick={() => dispatch(prevPage(1))} visibility={questPage !== 0} position="left">
+          <FontAwesomeIcon icon={faAnglesLeft} />
+        </NextButton>
         <div
           style={{
             border: '3px solid none',
@@ -116,8 +114,9 @@ function SurveyPage() {
                               if (questPage === checkIndex) return index; // 퀘스천 순서 일치시 radio index 값 리턴
                               return checkItem; // checked의 인덱스에 해당하는 값 리턴
                             });
-                            setChecked(newChecked);
-                            setEmotions([...emotions, e.target.value]);
+                            dispatch(newnewChecked(newChecked));
+                            const newEmotions = [...emotions, e.target.value];
+                            dispatch(getEmotions(newEmotions));
                           }
                           // active 주황색, border : gray
                         }}
@@ -137,123 +136,121 @@ function SurveyPage() {
                   </div>
                 );
               })}
-              {questPage + 1 === data.length ? (
-                <button
-                  onClick={() => {
+              <ResultButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (checked[questPage] === -1) {
+                    openModalHandler();
+                  } else {
                     modeEmotion(emotions);
                     return navigate('/result');
-                  }}
-                  style={{
-                    // hover시 크기도 키우자!!!!!
-                    // background: '#FFE4C2',
-                    background: '#ffffff',
-                    color: '#FF800B',
-                    width: '70px',
-                    height: '30px',
-                    fontWeight: 700,
-                    border: '3px solid #FFE4C2',
-                    cursor: 'pointer',
-                    borderRadius: '20px',
-                    marginTop: '30px'
-                  }}
-                >
-                  결과 보기
-                </button>
-              ) : (
-                <button style={{ display: 'none' }}>결과 보기</button>
-              )}
+                  }
+                }}
+                visibility={questPage + 1 === data.length}
+              >
+                결과 보기
+              </ResultButton>
             </div>
           </form>
         </div>
-        {questPage + 1 === data.length ? (
-          <button style={{ display: 'none' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <NextButton
+            onClick={() => {
+              if (checked[questPage] === -1) {
+                openModalHandler();
+              } else {
+                dispatch(nextPage(1));
+              }
+            }}
+            visibility={questPage !== questPage.length}
+            position="right"
+          >
             <FontAwesomeIcon icon={faAnglesRight} />
-          </button>
-        ) : (
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <button
-              onClick={() => {
-                if (checked[questPage] === -1) {
-                  openModalHandler();
-                } else {
-                  setQuestPage(questPage + 1);
-                }
-              }}
-              // hover: 커지는 효과
+          </NextButton>
+        </div>
+        {isOpen ? (
+          <div
+            style={{
+              zIndex: '1',
+              position: 'fixed',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              borderRadius: '10px',
+              top: 0,
+              left: '0',
+              right: '0',
+              bottom: '0'
+            }}
+            onClick={openModalHandler}
+          >
+            {/* 버블링 현상 제거 */}
+            <div
               style={{
-                cursor: 'pointer',
-                background: 'transparent',
-                color: '#ffffff',
-                transform: 'scale(2.0)',
-                marginLeft: '10px',
-                border: '3px solid transparent'
+                backgroundColor: '#ffffff',
+                width: '200px',
+                height: '100px',
+                borderRadius: '8px'
               }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <FontAwesomeIcon icon={faAnglesRight} />
-            </button>
-            {isOpen ? (
               <div
                 style={{
-                  zIndex: '1',
-                  position: 'fixed',
+                  color: '#000000',
                   display: 'flex',
+                  textAlign: 'center',
                   justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                  borderRadius: '10px',
-                  top: 0,
-                  left: '0',
-                  right: '0',
-                  bottom: '0'
+                  fontSize: '20px',
+                  marginTop: '20px',
+                  fontWeight: '700'
                 }}
-                onClick={openModalHandler}
               >
-                {/* 버블링 현상 제거 */}
-                <div
-                  style={{
-                    backgroundColor: '#ffffff',
-                    width: '200px',
-                    height: '100px',
-                    borderRadius: '8px'
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div
-                    style={{
-                      color: '#000000',
-                      display: 'flex',
-                      textAlign: 'center',
-                      justifyContent: 'center',
-                      fontSize: '20px',
-                      marginTop: '20px',
-                      fontWeight: '700'
-                    }}
-                  >
-                    항목을 선택해주세요!!
-                  </div>
-                  <button
-                    style={{
-                      border: '3px solid #FFE4C2',
-                      background: 'transparent',
-                      borderRadius: '8px',
-                      color: '#ff800b',
-                      fontSize: '15px',
-                      fontWeight: '700',
-                      marginTop: '20px',
-                      marginLeft: '70px'
-                    }}
-                    onClick={openModalHandler}
-                  >
-                    닫기
-                  </button>
-                </div>
+                항목을 선택해주세요!!
               </div>
-            ) : null}
+              <button
+                style={{
+                  border: '3px solid #FFE4C2',
+                  background: 'transparent',
+                  borderRadius: '8px',
+                  color: '#ff800b',
+                  fontSize: '15px',
+                  fontWeight: '700',
+                  marginTop: '20px',
+                  marginLeft: '70px'
+                }}
+                onClick={closeModalHandler}
+              >
+                닫기
+              </button>
+            </div>
           </div>
-        )}
+        ) : null}
       </div>
     </>
   );
 }
-
 export default SurveyPage;
+
+const NextButton = styled.button`
+  visibility: ${(props) => (props.visibility ? 'visible' : 'hidden')};
+  cursor: pointer;
+  background: transparent;
+  color: #ffffff;
+  transform: scale(2);
+  ${(props) => (props.position === 'left' ? 'margin-right:10px;' : 'margin-left:10px;')}
+  border: 3px solid transparent;
+`;
+
+const ResultButton = styled.button`
+  visibility: ${(props) => (props.visibility ? 'visible' : 'hidden')};
+  background: #ffffff;
+  color: #ff800b;
+  width: 70px;
+  height: 30px;
+  font-weight: 700;
+  border: 3px solid #ffe4c2;
+  cursor: pointer;
+  border-radius: 20px;
+  margin-top: 30px;
+`;
