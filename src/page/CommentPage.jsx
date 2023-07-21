@@ -8,10 +8,10 @@ function CommentPage() {
   const [currentTab, clickTab] = useState(0);
 
   const menuArr = [
-    { name: '행복한 날', content: 'Tab menu ONE' },
-    { name: '화나는 날', content: 'Tab menu TWO' },
-    { name: '우울한 날', content: 'Tab menu THREE' },
-    { name: '즐거운 날', content: 'Tab menu FOUR' }
+    { name: '행복한 날', content: 'one' },
+    { name: '화나는 날', content: 'two' },
+    { name: '우울한 날', content: 'three' },
+    { name: '즐거운 날', content: 'four' }
   ];
 
   const selectMenuHandler = (index) => {
