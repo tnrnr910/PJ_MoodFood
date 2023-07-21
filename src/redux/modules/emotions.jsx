@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  emotions: []
+  emotions: ''
 };
 
 const emotionsSlice = createSlice({
