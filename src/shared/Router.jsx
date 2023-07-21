@@ -5,6 +5,7 @@ import ResultPage from '../page/ResultPage';
 import SurveyPage from '../page/SurveyPage';
 import LayOut from '../layOut/LayOut';
 import ErrorPage from '../page/ErrorPage';
+import CommentPage from '../page/CommentPage';
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
           <Route path="/detail" element={<DetailPage />} />
           <Route path="/result" element={<ResultPage />} />
           <Route path="/survey" element={<SurveyPage />} />
+          <Route path="/comment" element={<CommentPage />} />
         </Route>
         <Route path="/*" element={<ErrorPage />} />
       </Routes>
