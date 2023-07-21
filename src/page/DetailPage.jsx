@@ -8,18 +8,21 @@ import axios from 'axios';
 
 const SliderContainer = styled.div`
   height: 140px;
-  margin: 160px 110px 200px 110px;
+  margin: 120px;
   padding: 20px;
   color: white;
 `;
 
-const SliderItem = styled.div`
-  margin-bottom: 230px;
-`;
+const SliderItem = styled.div``;
 
 const ImgFood = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 12rem;
+  height: 12rem;
+`;
+
+const SliderBox = styled.div`
+  margin-top: 7.5rem;
+  padding-bottom: 7rem;
 `;
 
 const DetailPage = () => {
@@ -47,18 +50,20 @@ const DetailPage = () => {
   return (
     <>
       <BackgroundImage />
-      {sliderImages.map((item, index) => (
-        <SliderContainer key={index}>
-          <h2>{item.mood}</h2>
-          <Slider {...settings}>
-            {item.food.map((image, imageIndex) => (
-              <SliderItem key={imageIndex}>
-                <ImgFood src={image.url} alt={item.foodname} />
-              </SliderItem>
-            ))}
-          </Slider>
-        </SliderContainer>
-      ))}
+      <SliderBox>
+        {sliderImages.map((item, index) => (
+          <SliderContainer key={index}>
+            <h2>{item.mood}</h2>
+            <Slider {...settings}>
+              {item.food.map((image, imageIndex) => (
+                <SliderItem key={imageIndex}>
+                  <ImgFood src={image.url} alt={item.foodname} />
+                </SliderItem>
+              ))}
+            </Slider>
+          </SliderContainer>
+        ))}
+      </SliderBox>
     </>
   );
 };
