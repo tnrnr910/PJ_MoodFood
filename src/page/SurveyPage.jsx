@@ -26,11 +26,6 @@ function SurveyPage() {
     modeArr = [...modeArr].sort((a, b) => b[1] - a[1]);
     return modeArr[0][0];
   };
-  // const [questPage, setQuestPage] = useState(0);
-  // const [isOpen, setIsOpen] = useState(false);
-  // 초기값
-  // const [checked, setChecked] = useState(Array(10).fill(-1));
-  // const [emo  tions, setEmotions] = useState([]);
 
   const { data, isLoading, isError, error } = useQuery('surveys', async () => {
     const response = await axios.get('http://localhost:4000/surveys');
@@ -142,7 +137,9 @@ function SurveyPage() {
                   if (checked[questPage] === -1) {
                     openModalHandler();
                   } else {
-                    modeEmotion(emotions);
+                    const pickedEmotion = modeEmotion(emotions); // 최빈값을 구한 감정의 대한 결과
+                    dispatch(getEmotions(pickedEmotion));
+
                     return navigate('/result');
                   }
                 }}

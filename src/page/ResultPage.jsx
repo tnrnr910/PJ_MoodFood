@@ -1,44 +1,123 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import BackgroundImage from '../components/BackgroundImage';
 import { styled } from 'styled-components';
+import { useLocation, useNavigate } from 'react-router';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getEmotions } from '../redux/modules/emotions';
+import { useEffect } from 'react';
+import { getComments } from '../redux/modules/comments';
 
 function ResultPage() {
+  const { emotions } = useSelector((state) => state.emotions);
+  const { comments } = useSelector((state) => state.comments);
+  const [resultEmotion, setResultEmotion] = useState('');
+  const [comment, setComment] = useState('');
+  const [foodImg, setFoodImg] = useState([]);
+  const navigate = useNavigate();
+  const topSwitch = useRef();
+  const moveToTop = () => {
+    topSwitch.current.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  const dispatch = useDispatch();
+
+  // 데이터 조회
+  const {
+    data: surveysData,
+    isLoading: surveyLoding,
+    isError: surveysIsError,
+    error: surveyError
+  } = useQuery('surveys', async () => {
+    const response = await axios.get('http://localhost:4000/surveys');
+    return response.data;
+  });
+
+  const {
+    data: foodImagesData,
+    isLoading: foodImgLoding,
+    isError: foodImgIsError,
+    error: foodImgError
+  } = useQuery('foodimage', async () => {
+    const response = await axios.get('http://localhost:4000/foodimage');
+    return response.data;
+  });
+
+  if (surveyLoding || foodImgLoding) {
+    return <>로딩중입니다</>;
+  }
+
+  if (surveysIsError || foodImgIsError) {
+    return <>에러입니다</>;
+  }
+
+  const match = foodImagesData?.find((item) => item.mood === emotions);
+  const randomNum = Math.floor(Math.random() * 4 + 1);
+
   return (
     <>
       <BackgroundImage />
       <OuterBox>
-        <InnerBox>
+        <InnerBox ref={topSwitch}>
           <QmoodFood>당신의 MoodFood는?</QmoodFood>
           <ImgGroup>
-            <ImgDiv1></ImgDiv1>
-            <ImgDiv2></ImgDiv2>
-            <ImgDiv3></ImgDiv3>
+            {match.food.splice(randomNum, 3).map((item) => {
+              return (
+                <InfomationDiv>
+                  <ImgArea src={item.url} />
+                  <FoodName>{item.foodname}</FoodName>
+                </InfomationDiv>
+              );
+            })}
+            <Explanation>{comments}</Explanation>;
           </ImgGroup>
-          <FoodGroup>
-            <FoodText1>치킨</FoodText1>
-            <FoodText2>치킨</FoodText2>
-            <FoodText3>치킨</FoodText3>
-          </FoodGroup>
-          <Explanation>
-            마음속에 행복이 넘쳐나는 당신!!! <br />
-            추천드린 음식을 주변사람들과 드시고
-            <br /> 당신의 행복을 널리널리 전파해 주세요~!!!!
-          </Explanation>
-          {/* <span>만나기만 해도 즐거운 사람들과 함께 이 음식을 먹으면서 좋은 추억 간직하는 하루 보내시길 바랍니당~</span>
-<span>슬프고 힘든 당신에게 이 음식들을 통해 위로가 되고 힘이 되었으면 좋겠습니다!!</span>
-<span>음~ 몸속에 화가 많이 쌓이셨군요!!! 추천드린 음식을 드시고 앞으로는 홧속 기쁨만 넘쳐나는 하루하루 보내시길 바랍니다~?!?!?!?!</span> */}
 
           <AllButtonGroup>
             <ButtonGroup>
-              <ShardButton>공유하기</ShardButton>
-              <ReplyButton>다시하기</ReplyButton>
+              <ShardButton
+                onClick={() => {
+                  navigate('/comment');
+                }}
+              >
+                댓글 작성
+              </ShardButton>
+              <ReplyButton
+                onClick={() => {
+                  navigate('/survey');
+                }}
+              >
+                다시하기
+              </ReplyButton>
             </ButtonGroup>
-            <AndSoOnButton>다른 MoodFood보기</AndSoOnButton>
+            <AndSoOnButton
+              onClick={() => {
+                navigate('/detail');
+              }}
+            >
+              MoodFood 더보기
+            </AndSoOnButton>
           </AllButtonGroup>
           <HrBox />
-          <div>
-            <h2>상세 MoodFood</h2>
-          </div>
+          <DetailFood>다른 MoodFood</DetailFood>
+          <ImgGroupDetail>
+            {match.food.splice(randomNum, 3).map((item) => {
+              return (
+                <InfomationDetail>
+                  <ImgAreaDetail src={item.url} />
+                  <div style={{ display: 'flex', flexDirection: 'row', height: '250px', marginTop: '20px' }}>
+                    <div style={{ border: '2px solid lightgray', margin: '0 10px' }} />
+                  </div>
+                  <div>
+                    <FoodNameDetail>{item.foodname}</FoodNameDetail>
+                    <FoodContentDetail>{item.comment}</FoodContentDetail>
+                  </div>
+                </InfomationDetail>
+              );
+            })}
+          </ImgGroupDetail>
+          <ScrollToUp className="material-symbols-outlined" onClick={moveToTop}>
+            assistant_navigation
+          </ScrollToUp>
         </InnerBox>
       </OuterBox>
     </>
@@ -46,6 +125,13 @@ function ResultPage() {
 }
 
 export default ResultPage;
+
+const ScrollToUp = styled.span`
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  right: 10px;
+`;
 
 const QmoodFood = styled.h1`
   font-size: 26px;
@@ -65,46 +151,30 @@ const InnerBox = styled.div`
   height: 700px;
   background-color: #ffffff;
   overflow-y: scroll;
+  position: relative;
 `;
 // 음식 img
 const ImgGroup = styled.div`
   display: flex;
   justify-content: space-around;
 `;
-const ImgDiv1 = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: gray;
+
+const InfomationDiv = styled.div`
+  border-bottom: 2px solid lightgray;
 `;
-const ImgDiv2 = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: gray;
-`;
-const ImgDiv3 = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: gray;
+
+const ImgArea = styled.img`
+  width: 250px;
+  height: 250px;
+  border-radius: 8px;
 `;
 // img food 표기
-const FoodGroup = styled.div`
-  display: flex;
-  justify-content: space-around;
-`;
-const FoodText1 = styled.div`
+const FoodName = styled.div`
   font-size: 20px;
   font-weight: 700;
-  margin-top: 10px;
-`;
-const FoodText2 = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-top: 10px;
-`;
-const FoodText3 = styled.div`
-  font-size: 20px;
-  font-weight: 700;
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  text-align: center;
 `;
 
 // 간단한 안내문구
@@ -159,8 +229,41 @@ const AndSoOnButton = styled.button`
 
 const HrBox = styled.div`
   width: 90%;
-  border: 1px solid #fba85bbd;
+  border: 2px solid #fba85bbd;
   text-align: center;
   margin-left: 30px;
   margin-top: 20px;
 `;
+
+const DetailFood = styled.h2`
+  text-align: center;
+`;
+
+const ImgGroupDetail = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+`;
+
+const InfomationDetail = styled.div`
+  display: flex;
+`;
+const ImgAreaDetail = styled.img`
+  width: 250px;
+  height: 250px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border-right: 10px;
+  padding-bottom: 10px;
+`;
+// img food 표기
+const FoodNameDetail = styled.div`
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 250px;
+`;
+
+const FoodContentDetail = styled.div``;
