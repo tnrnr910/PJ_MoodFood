@@ -22,6 +22,7 @@ const ImgFood = styled.img`
 
 const SliderBox = styled.div`
   margin-top: 7.5rem;
+  padding-bottom: 7rem;
 `;
 
 const DetailPage = () => {
