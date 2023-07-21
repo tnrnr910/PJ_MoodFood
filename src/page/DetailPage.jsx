@@ -6,25 +6,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import BackgroundImage from '../components/BackgroundImage';
 import axios from 'axios';
 
-const SliderContainer = styled.div`
-  height: 140px;
-  margin: 120px;
-  padding: 20px;
-  color: white;
-`;
-
-const SliderItem = styled.div``;
-
-const ImgFood = styled.img`
-  width: 12rem;
-  height: 12rem;
-`;
-
-const SliderBox = styled.div`
-  margin-top: 7.5rem;
-  padding-bottom: 7rem;
-`;
-
 const DetailPage = () => {
   const [sliderImages, setSliderImages] = useState([]);
   console.log('test', sliderImages);
@@ -53,14 +34,15 @@ const DetailPage = () => {
       <SliderBox>
         {sliderImages.map((item, index) => (
           <SliderContainer key={index}>
-            <h2>{item.mood}</h2>
-            <Slider {...settings}>
+            <h1>{item.mood}</h1>
+            <CustomSlider {...settings}>
               {item.food.map((image, imageIndex) => (
-                <SliderItem key={imageIndex}>
+                <ImageContainer key={imageIndex}>
                   <ImgFood src={image.url} alt={item.foodname} />
-                </SliderItem>
+                  <H4>{image.foodname}</H4>
+                </ImageContainer>
               ))}
-            </Slider>
+            </CustomSlider>
           </SliderContainer>
         ))}
       </SliderBox>
@@ -69,3 +51,56 @@ const DetailPage = () => {
 };
 
 export default DetailPage;
+
+const SliderContainer = styled.div`
+  height: 8.75rem;
+  margin: 7.5rem;
+  padding: 1.25rem 1.25rem 6.25rem 1.25rem;
+  color: white;
+`;
+
+const ImageContainer = styled.div`
+  margin-right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const ImgFood = styled.img`
+  width: 15rem;
+  height: 15rem;
+`;
+
+const SliderBox = styled.div`
+  margin-top: 7.5rem;
+  justify-content: center;
+  padding-bottom: 10rem;
+`;
+
+const H4 = styled.h4`
+  color: #fff;
+`;
+const CustomSlider = styled(Slider)`
+  .slick-prev {
+    position: absolute;
+    top: 40%;
+    left: -2.5rem;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 0px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .slick-next {
+    position: absolute;
+    top: 40%;
+    right: -2.5rem;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: none;
+    font-size: 0px;
+    color: white;
+    cursor: pointer;
+  }
+`;
