@@ -11,14 +11,12 @@ import { prevPage, nextPage } from '../redux/modules/questPage';
 import { statusModal } from '../redux/modules/isOpen';
 import { getEmotions } from '../redux/modules/emotions';
 import { newnewChecked } from '../redux/modules/checked';
-
 function SurveyPage() {
   const dispatch = useDispatch();
   const { checked } = useSelector((state) => state.checked);
   const { emotions } = useSelector((state) => state.emotions);
   const { isOpen } = useSelector((state) => state.isOpen);
   const { questPage } = useSelector((state) => state.questPage);
-
   const navigate = useNavigate();
   const modeEmotion = (emotions) => {
     let modeArr = new Map();
@@ -26,12 +24,10 @@ function SurveyPage() {
     modeArr = [...modeArr].sort((a, b) => b[1] - a[1]);
     return modeArr[0][0];
   };
-
   const { data, isLoading, isError, error } = useQuery('surveys', async () => {
     const response = await axios.get('http://localhost:4000/surveys');
     return response.data;
   });
-
   if (isLoading) {
     return <>로딩중입니다...</>;
   }
@@ -40,7 +36,6 @@ function SurveyPage() {
   }
   const openModalHandler = () => {
     // isOpen의 상태를 변경하는 메소드를 구현
-
     dispatch(statusModal(true));
   };
   const closeModalHandler = () => {
@@ -65,7 +60,7 @@ function SurveyPage() {
         <div
           style={{
             border: '3px solid none',
-            background: '#ffffff',
+            background: '#FFFFFF',
             width: '500px',
             height: '480px',
             padding: '0px 20px',
@@ -97,13 +92,10 @@ function SurveyPage() {
                           if (e.target.checked) {
                             // checked = [3, -1, -1, -1]; <- 퀘스천 4개일 때 1번째 퀘스천 4번째 라디오 버튼 선택 시
                             // checked = [3, 1, -1, -1]; <- 2번째 퀘스천 2번째 라디오 버튼 선택 시
-
                             // 1번 퀘스천 선택시 checked의 0번 인덱스의 값을 변경
                             // questPage: 0
-
                             // 2번 퀘스천 선택시 checked의 1번 인덱스의 값을 변경
                             // questPage: 1
-
                             // map 새로운 배열을 반환하기 때문에 ... 안써도 됨
                             const newChecked = checked.map((checkItem, checkIndex) => {
                               if (questPage === checkIndex) return index; // 퀘스천 순서 일치시 radio index 값 리턴
@@ -139,7 +131,6 @@ function SurveyPage() {
                   } else {
                     const pickedEmotion = modeEmotion(emotions); // 최빈값을 구한 감정의 대한 결과
                     dispatch(getEmotions(pickedEmotion));
-
                     return navigate('/result');
                   }
                 }}
@@ -159,7 +150,7 @@ function SurveyPage() {
                 dispatch(nextPage(1));
               }
             }}
-            visibility={questPage !== questPage.length}
+            visibility={questPage < data.length - 1}
             position="right"
           >
             <FontAwesomeIcon icon={faAnglesRight} />
@@ -185,7 +176,7 @@ function SurveyPage() {
             {/* 버블링 현상 제거 */}
             <div
               style={{
-                backgroundColor: '#ffffff',
+                backgroundColor: '#FFFFFF',
                 width: '200px',
                 height: '100px',
                 borderRadius: '8px'
@@ -210,7 +201,7 @@ function SurveyPage() {
                   border: '3px solid #FFE4C2',
                   background: 'transparent',
                   borderRadius: '8px',
-                  color: '#ff800b',
+                  color: '#FF800B',
                   fontSize: '15px',
                   fontWeight: '700',
                   marginTop: '20px',
@@ -228,7 +219,6 @@ function SurveyPage() {
   );
 }
 export default SurveyPage;
-
 const NextButton = styled.button`
   visibility: ${(props) => (props.visibility ? 'visible' : 'hidden')};
   cursor: pointer;
@@ -238,7 +228,6 @@ const NextButton = styled.button`
   ${(props) => (props.position === 'left' ? 'margin-right:10px;' : 'margin-left:10px;')}
   border: 3px solid transparent;
 `;
-
 const ResultButton = styled.button`
   visibility: ${(props) => (props.visibility ? 'visible' : 'hidden')};
   background: #ffffff;

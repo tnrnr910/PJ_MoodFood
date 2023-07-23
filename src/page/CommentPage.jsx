@@ -40,25 +40,32 @@ function CommentPage() {
       if (checkPwd == pickedPwd) {
         mutationDelete.mutate(pickedId);
         closeModalHandler();
+        setNewFood('');
+        setNewComment('');
         setCheckPwd('');
       } else {
         alert('비밀번호가 틀립니다.');
+        setNewFood('');
+        setNewComment('');
         setCheckPwd('');
       }
-    }
-    if (isUpdate) {
+    } else {
       if (checkPwd == pickedPwd) {
         const newComments = {
-          id: data.id,
-          pwd: data.password,
+          id: pickedId,
+          password: pickedPwd,
           title: newFood,
           review: newComment
         };
         mutationUpdate.mutate(newComments);
         closeModalHandler();
+        setNewFood('');
+        setNewComment('');
         setCheckPwd('');
       } else {
         alert('비밀번호가 틀립니다.');
+        setNewFood('');
+        setNewComment('');
         setCheckPwd('');
       }
     }
@@ -158,51 +165,59 @@ function CommentPage() {
                                     onChange={(e) => setCheckPwd(e.target.value)}
                                   ></input>
                                 </PasswordModal>
-                                <ButtonModal onClick={completeModalHandler}>완료</ButtonModal>
-                                <ButtonModal
-                                  style={{
-                                    marginLeft: '10px'
-                                  }}
-                                  onClick={closeModalHandler}
-                                >
-                                  닫기
-                                </ButtonModal>
+                                <ButtonModals>
+                                  <ButtonModal onClick={completeModalHandler}>완료</ButtonModal>
+                                  <ButtonModal
+                                    style={{
+                                      marginLeft: '10px'
+                                    }}
+                                    onClick={closeModalHandler}
+                                  >
+                                    닫기
+                                  </ButtonModal>
+                                </ButtonModals>
                               </DeleteModal>
                             </>
                           ) : (
                             <>
                               <UpdateModal onClick={(e) => e.stopPropagation()}>
-                                <form>
-                                  <span>음식 : &nbsp;</span>
-                                  <input
-                                    type="text"
-                                    value={newFood}
-                                    onChange={(e) => setNewFood(e.target.value)}
-                                  ></input>
-                                  <br />
-                                  <span>후기 : &nbsp;</span>
-                                  <input
-                                    type="text"
-                                    value={newComment}
-                                    onChange={(e) => setNewComment(e.target.value)}
-                                  ></input>
-                                  <br />
-                                  <span>비밀번호 : &nbsp;</span>
-                                  <input
-                                    type="password"
-                                    value={checkPwd}
-                                    onChange={(e) => setCheckPwd(e.target.value)}
-                                  ></input>
-                                </form>
-                                <ButtonModal onClick={completeModalHandler}>완료</ButtonModal>
-                                <ButtonModal
-                                  style={{
-                                    marginLeft: '10px'
-                                  }}
-                                  onClick={closeModalHandler}
-                                >
-                                  닫기
-                                </ButtonModal>
+                                <UpdateModalInput>
+                                  <UpdateModalInputWrap>
+                                    <span>음식 : &nbsp;</span>
+                                    <input
+                                      type="text"
+                                      value={newFood}
+                                      onChange={(e) => setNewFood(e.target.value)}
+                                    ></input>
+                                  </UpdateModalInputWrap>
+                                  <UpdateModalInputWrap>
+                                    <span>후기 : &nbsp;</span>
+                                    <input
+                                      type="text"
+                                      value={newComment}
+                                      onChange={(e) => setNewComment(e.target.value)}
+                                    ></input>
+                                  </UpdateModalInputWrap>
+                                  <UpdateModalInputWrap>
+                                    <span>비밀번호 : &nbsp;</span>
+                                    <input
+                                      type="password"
+                                      value={checkPwd}
+                                      onChange={(e) => setCheckPwd(e.target.value)}
+                                    ></input>
+                                  </UpdateModalInputWrap>
+                                </UpdateModalInput>
+                                <ButtonModals>
+                                  <ButtonModal onClick={completeModalHandler}>완료</ButtonModal>
+                                  <ButtonModal
+                                    style={{
+                                      marginLeft: '10px'
+                                    }}
+                                    onClick={closeModalHandler}
+                                  >
+                                    닫기
+                                  </ButtonModal>
+                                </ButtonModals>
                               </UpdateModal>
                             </>
                           )}
@@ -318,6 +333,21 @@ const UpdateModal = styled.div`
   width: 300px;
   height: 200px;
   border-radius: 8px;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+`;
+const UpdateModalInput = styled.form`
+  flex-direction: column;
+  display: flex;
+  justify-content: space-around;
+`;
+
+const UpdateModalInputWrap = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-left: 15px;
+  margin-right: 15px;
 `;
 
 const PasswordModal = styled.div`
@@ -326,7 +356,6 @@ const PasswordModal = styled.div`
   text-align: center;
   justify-content: center;
   font-size: 16px;
-  margin-top: 50px;
   font-weight: 700;
 `;
 
@@ -335,6 +364,9 @@ const DeleteModal = styled.div`
   width: 300px;
   height: 150px;
   border-radius: 8p;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 const ModalBox = styled.div`
@@ -442,4 +474,10 @@ const ButtonRegistration = styled.button`
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+`;
+
+const ButtonModals = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 `;
