@@ -18,25 +18,27 @@ function CommentPage() {
   const [newFood, setNewFood] = useState('');
   const [newComment, setNewComment] = useState('');
   const dispatch = useDispatch();
+  const [pickedPwd, setPickedPwd] = useState('');
+  const [pickedId, setPickedId] = useState('');
+
   // 모달
+
   const { isOpen } = useSelector((state) => state.isOpen);
   // pwd 모달 열기(수정/삭제)버튼
   const openModalHandler = () => {
     dispatch(statusModal(true));
   };
-  // pwd 모달 닫기 버튼
 
+  // pwd 모달 닫기 버튼
   const closeModalHandler = () => {
     dispatch(statusModal(false));
   };
   // pwd 모달 완료버튼
-  const completeModalHandler = (e) => {
-    e.preventDefault();
+  const completeModalHandler = () => {
+    // e.preventDefault();
     if (!isUpdate) {
-      if (checkPwd === data.password) {
-        console.log(data.password);
-        console.log(checkPwd);
-        mutationDelete.mutate(data.id);
+      if (checkPwd == pickedPwd) {
+        mutationDelete.mutate(pickedId);
         closeModalHandler();
         setCheckPwd('');
       } else {
@@ -45,7 +47,7 @@ function CommentPage() {
       }
     }
     if (isUpdate) {
-      if (checkPwd === data.password) {
+      if (checkPwd == pickedPwd) {
         const newComments = {
           id: data.id,
           pwd: data.password,
@@ -186,115 +188,56 @@ function CommentPage() {
                                     <p>{item.review}</p>
                                   </div>
                                   <Buttons>
-                                    <button
-                                      style={{ cursor: 'pointer' }}
+                                    <EditButtons
                                       onClick={() => {
+                                        setPickedPwd(item.password);
+                                        setPickedId(item.id);
                                         openModalHandler();
                                         setIsUpdate(true);
                                       }}
                                     >
                                       수정
-                                    </button>
+                                    </EditButtons>
 
-                                    <button
-                                      style={{ cursor: 'pointer' }}
+                                    <EditButtons
                                       onClick={() => {
+                                        setPickedPwd(item.password);
+                                        setPickedId(item.id);
                                         openModalHandler();
                                         setIsUpdate(false);
                                       }}
                                     >
                                       삭제
-                                    </button>
+                                    </EditButtons>
                                   </Buttons>
                                   {isOpen ? (
-                                    <div
-                                      style={{
-                                        zIndex: '1',
-                                        position: 'fixed',
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                                        borderRadius: '10px',
-                                        top: 0,
-                                        left: '0',
-                                        right: '0',
-                                        bottom: '0'
-                                      }}
-                                      onClick={openModalHandler}
-                                    >
+                                    <ModalBox onClick={openModalHandler}>
                                       {/* 버블링 현상 제거 */}
                                       {!isUpdate ? (
                                         <>
-                                          <div
-                                            style={{
-                                              backgroundColor: '#ffffff',
-                                              width: '300px',
-                                              height: '150px',
-                                              borderRadius: '8px'
-                                            }}
-                                            onClick={(e) => e.stopPropagation()}
-                                          >
-                                            <div
-                                              style={{
-                                                color: '#000000',
-                                                display: 'flex',
-                                                textAlign: 'center',
-                                                justifyContent: 'center',
-                                                fontSize: '16px',
-                                                marginTop: '50px',
-                                                fontWeight: '700'
-                                              }}
-                                            >
+                                          <DeleteModal onClick={(e) => e.stopPropagation()}>
+                                            <PasswordModal>
                                               <span>비밀번호 : &nbsp;</span>
                                               <input
                                                 type="password"
                                                 value={checkPwd}
                                                 onChange={(e) => setCheckPwd(e.target.value)}
                                               ></input>
-                                            </div>
-                                            <button
+                                            </PasswordModal>
+                                            <ButtonModal onClick={completeModalHandler}>완료</ButtonModal>
+                                            <ButtonModal
                                               style={{
-                                                border: '3px solid #FFE4C2',
-                                                background: 'transparent',
-                                                borderRadius: '8px',
-                                                color: '#ff800b',
-                                                fontSize: '15px',
-                                                fontWeight: '700',
-                                                cursor: 'pointer'
-                                              }}
-                                              onClick={completeModalHandler}
-                                            >
-                                              완료
-                                            </button>
-                                            <button
-                                              style={{
-                                                border: '3px solid #FFE4C2',
-                                                background: 'transparent',
-                                                borderRadius: '8px',
-                                                color: '#ff800b',
-                                                fontSize: '15px',
-                                                fontWeight: '700',
-                                                cursor: 'pointer',
                                                 marginLeft: '10px'
                                               }}
                                               onClick={closeModalHandler}
                                             >
                                               닫기
-                                            </button>
-                                          </div>
+                                            </ButtonModal>
+                                          </DeleteModal>
                                         </>
                                       ) : (
                                         <>
-                                          <div
-                                            style={{
-                                              backgroundColor: '#ffffff',
-                                              width: '300px',
-                                              height: '200px',
-                                              borderRadius: '8px'
-                                            }}
-                                            onClick={(e) => e.stopPropagation()}
-                                          >
+                                          <UpdateModal onClick={(e) => e.stopPropagation()}>
                                             <form>
                                               <span>음식 : &nbsp;</span>
                                               <input
@@ -317,39 +260,19 @@ function CommentPage() {
                                                 onChange={(e) => setCheckPwd(e.target.value)}
                                               ></input>
                                             </form>
-                                            <button
+                                            <ButtonModal onClick={completeModalHandler}>완료</ButtonModal>
+                                            <ButtonModal
                                               style={{
-                                                border: '3px solid #FFE4C2',
-                                                background: 'transparent',
-                                                borderRadius: '8px',
-                                                color: '#ff800b',
-                                                fontSize: '15px',
-                                                fontWeight: '700',
-                                                cursor: 'pointer'
-                                              }}
-                                              onClick={completeModalHandler}
-                                            >
-                                              완료
-                                            </button>
-                                            <button
-                                              style={{
-                                                border: '3px solid #FFE4C2',
-                                                background: 'transparent',
-                                                borderRadius: '8px',
-                                                color: '#ff800b',
-                                                fontSize: '15px',
-                                                fontWeight: '700',
-                                                cursor: 'pointer',
                                                 marginLeft: '10px'
                                               }}
                                               onClick={closeModalHandler}
                                             >
                                               닫기
-                                            </button>
-                                          </div>
+                                            </ButtonModal>
+                                          </UpdateModal>
                                         </>
                                       )}
-                                    </div>
+                                    </ModalBox>
                                   ) : null}
                                 </div>
                               </>
@@ -427,3 +350,55 @@ const CommentBox = styled.div``;
 const Comments = styled.div``;
 const CommentInfo = styled.div``;
 const Buttons = styled.div``;
+
+const ButtonModal = styled.button`
+  border: 3px solid #ffe4c2;
+  background: transparent;
+  border-radius: 8px;
+  color: #ff800b;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+`;
+
+const UpdateModal = styled.div`
+  background-color: #ffffff;
+  width: 300px;
+  height: 200px;
+  border-radius: 8px;
+`;
+
+const PasswordModal = styled.div`
+  color: #000000;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-top: 50px;
+  font-weight: 700;
+`;
+
+const DeleteModal = styled.div`
+  background-color: #ffffff;
+  width: 300px;
+  height: 150px;
+  border-radius: 8p;
+`;
+
+const ModalBox = styled.div`
+  z-index: 1;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+`;
+
+const EditButtons = styled.button`
+  cursor: pointer;
+`;
