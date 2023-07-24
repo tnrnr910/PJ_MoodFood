@@ -72,7 +72,7 @@ function CommentPage() {
   };
   //useQuery
   const { data, isLoading, isError, error } = useQuery('users', async () => {
-    const response = await axios.get('${process.env.REACT_APP_MOODFOOD}/users');
+    const response = await axios.get(`${process.env.REACT_APP_MOODFOOD}/users`);
     console.log('데이터', data);
     return response.data;
   });
@@ -83,7 +83,7 @@ function CommentPage() {
     <>{error.message}</>;
   }
   const addComments = async (contents) => {
-    await axios.post('${process.env.REACT_APP_MOODFOOD}/users', contents);
+    await axios.post(`${process.env.REACT_APP_MOODFOOD}/users`, contents);
   };
   const mutationAdd = useMutation(addComments, {
     onSuccess: () => {

@@ -33,7 +33,7 @@ function ResultPage() {
     isError: surveysIsError,
     error: surveyError
   } = useQuery('surveys', async () => {
-    const response = await axios.get('${process.env.REACT_APP_MOODFOOD}/surveys');
+    const response = await axios.get(`${process.env.REACT_APP_MOODFOOD}/surveys`);
     return response.data;
   });
 
@@ -43,7 +43,7 @@ function ResultPage() {
     isError: foodImgIsError,
     error: foodImgError
   } = useQuery('foodimage', async () => {
-    const response = await axios.get('${process.env.REACT_APP_MOODFOOD}/foodimage');
+    const response = await axios.get(`${process.env.REACT_APP_MOODFOOD}/foodimage`);
     return response.data;
   });
 
