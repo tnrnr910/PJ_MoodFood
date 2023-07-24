@@ -10,9 +10,12 @@ const checkedSlice = createSlice({
   reducers: {
     newnewChecked: (state, action) => {
       state.checked = action.payload;
+    },
+    resetChecked: (state) => {
+      state.checked = Array(10).fill(-1);
     }
   }
 });
 
-export const { newnewChecked } = checkedSlice.actions;
+export const { newnewChecked, resetChecked } = checkedSlice.actions;
 export default checkedSlice.reducer;

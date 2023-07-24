@@ -10,9 +10,12 @@ const emotionsSlice = createSlice({
   reducers: {
     getEmotions: (state, action) => {
       state.emotions = action.payload;
+    },
+    resetEmotions: (state) => {
+      state.emotions = '';
     }
   }
 });
 
-export const { getEmotions } = emotionsSlice.actions;
+export const { getEmotions, resetEmotions } = emotionsSlice.actions;
 export default emotionsSlice.reducer;
