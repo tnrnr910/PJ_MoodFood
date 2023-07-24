@@ -5,18 +5,25 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import BackgroundImage from '../components/BackgroundImage';
 import axios from 'axios';
+import Loading from '../components/Loading';
 
 const DetailPage = () => {
+  const [isLoading, setIsLoading] = useState('');
+
   const [sliderImages, setSliderImages] = useState([]);
   console.log('test', sliderImages);
   useEffect(() => {
     const fetchSliderImages = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get('http://localhost:4000/foodimage');
         setSliderImages(response.data);
       } catch (error) {
         console.log('error');
       }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     };
     fetchSliderImages();
   }, []);
@@ -30,7 +37,7 @@ const DetailPage = () => {
   };
   return (
     <>
-      <BackgroundImage />
+      {isLoading ? <Loading /> : <BackgroundImage />}
       <SliderBox>
         {sliderImages.map((item, index) => (
           <SliderContainer key={index}>
