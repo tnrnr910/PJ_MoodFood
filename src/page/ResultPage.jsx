@@ -138,6 +138,7 @@ const ScrollToUp = styled.span`
   height: 50px;
   position: absolute;
   right: 10px;
+  cursor: pointer;
 `;
 
 const QmoodFood = styled.h1`
