@@ -10,8 +10,10 @@ import { useEffect } from 'react';
 import { getComments } from '../redux/modules/comments';
 import { resetPage } from '../redux/modules/questPage';
 import { resetChecked } from '../redux/modules/checked';
+import Loading from '../components/Loading';
 
 function ResultPage() {
+  const [isLoading, setIsLoading] = useState('');
   const { emotions } = useSelector((state) => state.emotions);
   const { comments } = useSelector((state) => state.comments);
   const [resultEmotion, setResultEmotion] = useState('');
@@ -46,7 +48,7 @@ function ResultPage() {
   });
 
   if (surveyLoding || foodImgLoding) {
-    return <>로딩중입니다</>;
+    return <Loading />;
   }
 
   if (surveysIsError || foodImgIsError) {
