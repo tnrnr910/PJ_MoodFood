@@ -16,7 +16,7 @@ const DetailPage = () => {
     const fetchSliderImages = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get('http://localhost:4000/foodimage');
+        const response = await axios.get('${process.env.REACT_APP_MOODFOOD}/foodimage');
         setSliderImages(response.data);
       } catch (error) {
         console.log('error');

@@ -25,7 +25,7 @@ function SurveyPage() {
     return modeArr[0][0];
   };
   const { data, isLoading, isError, error } = useQuery('surveys', async () => {
-    const response = await axios.get('http://localhost:4000/surveys');
+    const response = await axios.get('${process.env.REACT_APP_MOODFOOD}/surveys');
     return response.data;
   });
   if (isLoading) {

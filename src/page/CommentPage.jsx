@@ -72,7 +72,7 @@ function CommentPage() {
   };
   //useQuery
   const { data, isLoading, isError, error } = useQuery('users', async () => {
-    const response = await axios.get('http://localhost:4000/users');
+    const response = await axios.get('${process.env.REACT_APP_MOODFOOD}/users');
     console.log('데이터', data);
     return response.data;
   });
@@ -83,7 +83,7 @@ function CommentPage() {
     <>{error.message}</>;
   }
   const addComments = async (contents) => {
-    await axios.post('http://localhost:4000/users', contents);
+    await axios.post('${process.env.REACT_APP_MOODFOOD}/users', contents);
   };
   const mutationAdd = useMutation(addComments, {
     onSuccess: () => {
@@ -92,7 +92,7 @@ function CommentPage() {
   });
   // 삭제 query function
   const deleteComments = async (id) => {
-    await axios.delete(`http://localhost:4000/users/${id}`);
+    await axios.delete(`${process.env.REACT_APP_MOODFOOD}/users/${id}`);
   };
   const mutationDelete = useMutation(deleteComments, {
     onSuccess: () => {
@@ -101,7 +101,7 @@ function CommentPage() {
   });
   // 수정 query function
   const updateComments = async (contents) => {
-    await axios.put(`http://localhost:4000/users/${contents.id}`, contents);
+    await axios.put(`${process.env.REACT_APP_MOODFOOD}/users/${contents.id}`, contents);
     console.log('contents', contents);
   };
   const mutationUpdate = useMutation(updateComments, {
