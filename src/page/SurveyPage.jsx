@@ -82,41 +82,41 @@ function SurveyPage() {
                     }}
                   >
                     <div style={{ textAlign: 'start', padding: '0 40px' }}>
-                      <input
-                        type="radio"
-                        id="q1"
-                        name="q1"
-                        value={item.emotion}
-                        checked={index === checked[questPage]} // checked를 -1로 채워진 배열로 초기값 설정
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            // checked = [3, -1, -1, -1]; <- 퀘스천 4개일 때 1번째 퀘스천 4번째 라디오 버튼 선택 시
-                            // checked = [3, 1, -1, -1]; <- 2번째 퀘스천 2번째 라디오 버튼 선택 시
-                            // 1번 퀘스천 선택시 checked의 0번 인덱스의 값을 변경
-                            // questPage: 0
-                            // 2번 퀘스천 선택시 checked의 1번 인덱스의 값을 변경
-                            // questPage: 1
-                            // map 새로운 배열을 반환하기 때문에 ... 안써도 됨
-                            const newChecked = checked.map((checkItem, checkIndex) => {
-                              if (questPage === checkIndex) return index; // 퀘스천 순서 일치시 radio index 값 리턴
-                              return checkItem; // checked의 인덱스에 해당하는 값 리턴
-                            });
-                            dispatch(newnewChecked(newChecked));
-                            const newEmotions = [...emotions, e.target.value];
-                            dispatch(getEmotions(newEmotions));
-                          }
-                          // active 주황색, border : gray
-                        }}
-                        style={{
-                          cursor: 'pointer'
-                        }}
-                      />
-                      &nbsp;
                       <label
                         style={{
                           cursor: 'pointer'
                         }}
                       >
+                        <input
+                          type="radio"
+                          id="q1"
+                          name="q1"
+                          value={item.emotion}
+                          checked={index === checked[questPage]} // checked를 -1로 채워진 배열로 초기값 설정
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              // checked = [3, -1, -1, -1]; <- 퀘스천 4개일 때 1번째 퀘스천 4번째 라디오 버튼 선택 시
+                              // checked = [3, 1, -1, -1]; <- 2번째 퀘스천 2번째 라디오 버튼 선택 시
+                              // 1번 퀘스천 선택시 checked의 0번 인덱스의 값을 변경
+                              // questPage: 0
+                              // 2번 퀘스천 선택시 checked의 1번 인덱스의 값을 변경
+                              // questPage: 1
+                              // map 새로운 배열을 반환하기 때문에 ... 안써도 됨
+                              const newChecked = checked.map((checkItem, checkIndex) => {
+                                if (questPage === checkIndex) return index; // 퀘스천 순서 일치시 radio index 값 리턴
+                                return checkItem; // checked의 인덱스에 해당하는 값 리턴
+                              });
+                              dispatch(newnewChecked(newChecked));
+                              const newEmotions = [...emotions, e.target.value];
+                              dispatch(getEmotions(newEmotions));
+                            }
+                            // active 주황색, border : gray
+                          }}
+                          style={{
+                            cursor: 'pointer'
+                          }}
+                        />
+                        &nbsp;
                         {item.answer}
                       </label>
                     </div>
