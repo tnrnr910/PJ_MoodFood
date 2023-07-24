@@ -13,10 +13,13 @@ const questPageSlice = createSlice({
     },
     nextPage: (state, action) => {
       state.questPage = state.questPage + action.payload;
+    },
+    resetPage: (state, action) => {
+      state.questPage = 0;
     }
   }
 });
 
-export const { prevPage, nextPage } = questPageSlice.actions;
+export const { prevPage, nextPage, resetPage } = questPageSlice.actions;
 
 export default questPageSlice.reducer;

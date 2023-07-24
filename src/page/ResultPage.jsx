@@ -5,9 +5,11 @@ import { useLocation, useNavigate } from 'react-router';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEmotions } from '../redux/modules/emotions';
+import { getEmotions, resetEmotions } from '../redux/modules/emotions';
 import { useEffect } from 'react';
 import { getComments } from '../redux/modules/comments';
+import { resetPage } from '../redux/modules/questPage';
+import { resetChecked } from '../redux/modules/checked';
 
 function ResultPage() {
   const { emotions } = useSelector((state) => state.emotions);
@@ -84,6 +86,9 @@ function ResultPage() {
               <ReplyButton
                 onClick={() => {
                   navigate('/survey');
+                  dispatch(resetEmotions());
+                  dispatch(resetPage());
+                  dispatch(resetChecked());
                 }}
               >
                 다시하기
