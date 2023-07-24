@@ -73,7 +73,7 @@ function ResultPage() {
                 </InfomationDiv>
               );
             })}
-            <Explanation>{comments}</Explanation>;
+            <Explanation>{comments}</Explanation>
           </ImgGroup>
 
           <AllButtonGroup>
@@ -114,10 +114,10 @@ function ResultPage() {
                   <div style={{ display: 'flex', flexDirection: 'row', height: '250px', marginTop: '20px' }}>
                     <div style={{ border: '2px solid lightgray', margin: '0 10px' }} />
                   </div>
-                  <div>
+                  <Foods>
                     <FoodNameDetail>{item.foodname}</FoodNameDetail>
                     <FoodContentDetail>{item.comment}</FoodContentDetail>
-                  </div>
+                  </Foods>
                 </InfomationDetail>
               );
             })}
@@ -264,13 +264,21 @@ const ImgAreaDetail = styled.img`
   padding-bottom: 10px;
 `;
 // img food 표기
+
+const Foods = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: end;
+  margin-bottom: 20px;
+`;
+
 const FoodNameDetail = styled.div`
   font-size: 20px;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 250px;
 `;
 
 const FoodContentDetail = styled.div``;
